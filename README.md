@@ -1,2 +1,7 @@
 # Multimodal-Sentiments-Analysis
 Hi, this is my ELC project on Vision-Language Models. The system can look at any image and do two things — generate a caption describing what's in the image, and answer questions about it in natural language
+I'm using BLIP — Bootstrapped Language-Image Pre-training — from Salesforce. It has two parts: a Vision Transformer that reads the image like a grid of patches, and a language model decoder that generates text from those visual features. BLIP-2 takes this further by adding a Q-Former — a small bridge module that connects a frozen image encoder to a large language model like OPT.
+Before the image even reaches the model, I run it through an OpenCV pipeline — CLAHE for contrast enhancement, a bilateral filter to reduce noise without blurring edges, and a sharpening kernel. This noticeably improves results on dark or blurry photos.
+For captioning I support three decoding modes. Beam search gives the most accurate, deterministic caption. Nucleus sampling gives creative variation. Diverse beam returns multiple candidates and picks the most descriptive one.
+On the COCO benchmark, BLIP-large scores BLEU-4 of 40.4 and CIDEr of 1362. On the VQAv2 dataset, it hits 78.9% accuracy. On GPU, inference is under one second per image.
+The whole thing runs as a Streamlit web app — upload an image, get a caption, ask questions, see confidence scores, and download your results. Thank you.
